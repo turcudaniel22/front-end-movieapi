@@ -8,6 +8,7 @@ export default function Home() {
   const [movies] = useState(moviesData);
   const [filteredMovies, setFilteredMovies] = useState(moviesData);
 
+
   const handleSearch = ({ keyword }) => {
     // Filter movies based on the keyword
     const newFilteredMovies = movies.filter(movie =>

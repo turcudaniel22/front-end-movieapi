@@ -13,43 +13,42 @@ const SearchForm = ({ onSearch }) => {
   return (
     <form onSubmit={handleSubmit} className="mb-8 p-4 bg-white rounded shadow-md">
       <div className="mb-4">
-        <label htmlFor="category" className="block text-gray-700">Kategori:</label>
+        <label htmlFor="category" className="block text-gray-700">Category:</label>
         <select
           id="category"
           value={category}
           onChange={(e) => setCategory(e.target.value)}
           className="mt-1 block w-full p-2 border rounded"
         >
-          <option value="">Velg kategori</option>
-          <option value="sjanger">Sjanger</option>
-          <option value="utgivelsesår">Utgivelsesår</option>
-          <option value="skuespiller">Skuespiller</option>
+          <option value="">Select Category</option>
+          <option value="genre">Genre</option>
+          <option value="release_year">Release Year</option>
+          <option value="actor">Actor</option>
         </select>
       </div>
       <div className="mb-4">
-        <label htmlFor="keyword" className="block text-gray-700">Søk:</label>
+        <label htmlFor="keyword" className="block text-gray-700">Search:</label>
         <input
           type="text"
           id="keyword"
           value={keyword}
           onChange={(e) => setKeyword(e.target.value)}
           className="mt-1 block w-full p-2 border rounded"
-          placeholder="Skriv inn søkeord"
+          placeholder="Enter search keyword"
         />
       </div>
       <button
         type="submit"
         className="w-full bg-black text-white py-2 px-4 rounded hover:bg-gray-600"
       >
-        Søk
+        Search
       </button>
     </form>
   );
 };
 
-// Define prop types for the SearchForm component
 SearchForm.propTypes = {
-  onSearch: PropTypes.func.isRequired, // onSearch must be a function and is required
+  onSearch: PropTypes.func.isRequired,
 };
 
 export default SearchForm;
