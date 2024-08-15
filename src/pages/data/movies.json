@@ -1,0 +1,6 @@
+[
+  { "id": 1, "name": "Inception", "image": "/public/spiderman.jpg" },
+  { "id": 2, "name": "Interstellar", "image": "/public/spiderman.jpg" },
+  { "id": 3, "name": "The Dark Knight", "image": "/public/spiderman.jpg" },
+  { "id": 4, "name": "The Matrix", "image": "/public/spiderman.jpg" }
+]
