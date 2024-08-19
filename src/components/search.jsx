@@ -7,7 +7,10 @@ const SearchForm = ({ onSearch }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSearch({ category, keyword });
+    // Ensure onSearch is defined
+    if (onSearch) {
+      onSearch({ category, keyword });
+    }
   };
 
   return (

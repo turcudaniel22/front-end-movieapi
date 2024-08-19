@@ -1,12 +1,30 @@
-import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import FullScreenImage from './FullScreenImage';
 
-const MovieList = ({ movies }) => {
+const MovieList = () => {
   const [selectedMovie, setSelectedMovie] = useState(null);
+  const [movies, setMovies] = useState([]);
+  const [error, setError] = useState(null);
 
-  const handleImageClick = (movie) => {
-    setSelectedMovie(movie);
+
+  
+  useEffect(() => {
+    fetch('http://localhost:8080/api/v1/movie/all')
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        } 
+        return response.json();
+      })
+      .then((data) => setMovies(data))
+      .catch((error) => {
+        setError(error);
+        console.error('There was a problem with the fetch operation:', error);
+      });
+  }, []);
+
+  const handleImageClick = (movies) => {
+    setSelectedMovie(movies);
   };
 
   const closeFullScreen = () => {
@@ -15,22 +33,24 @@ const MovieList = ({ movies }) => {
 
   return (
     <div>
+      {error && <p className="text-red-500 text-center">Failed to load movies: {error.message}</p>}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
         {movies.length > 0 ? (
           movies.map((movie) => (
             <div
-              key={movie.id}
+              key={movie.movieId}  // Assuming movie.id is unique and available
               className="relative bg-gray-800 rounded-lg overflow-hidden shadow-lg transition-transform transform hover:scale-105 cursor-pointer"
               onClick={() => handleImageClick(movie)}
             >
+              {console.log('Image URL:', movie.poster)}
               <img
                 className="w-full h-64 object-cover"
-                src={movie.image}
-                alt={movie.name}
+                src={movie.poster} 
+                alt={movie.title}
               />
               <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
                 <h2 className="text-2xl font-semibold text-white text-center">
-                  {movie.name}
+                  {movie.title}
                 </h2>
               </div>
             </div>
@@ -45,17 +65,6 @@ const MovieList = ({ movies }) => {
       )}
     </div>
   );
-};
-
-MovieList.propTypes = {
-  movies: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      name: PropTypes.string.isRequired,
-      image: PropTypes.string.isRequired,
-      info: PropTypes.string,
-    })
-  ).isRequired,
 };
 
 export default MovieList;
