@@ -1,13 +1,16 @@
-import { useState } from 'react';
-import PropTypes from 'prop-types';
+import { useState } from 'react'; // Import useState from React
+import PropTypes from 'prop-types'; // Import PropTypes for type-checking
 
+// SearchForm component definition
 const SearchForm = ({ onSearch }) => {
-  const [category, setCategory] = useState('');
-  const [keyword, setKeyword] = useState('');
+  // Local state for the search category and keyword
+  const [category, setCategory] = useState(''); // State for selected category
+  const [keyword, setKeyword] = useState(''); // State for search keyword
 
+  // Handle form submission
   const handleSubmit = (e) => {
-    e.preventDefault();
-    // Ensure onSearch is defined
+    e.preventDefault(); // Prevent the default form submission behavior
+    // Check if onSearch function is provided and call it with the category and keyword
     if (onSearch) {
       onSearch({ category, keyword });
     }
@@ -15,12 +18,13 @@ const SearchForm = ({ onSearch }) => {
 
   return (
     <form onSubmit={handleSubmit} className="mb-8 p-4 bg-white rounded shadow-md">
+      {/* Category Selection */}
       <div className="mb-4">
         <label htmlFor="category" className="block text-gray-700">Category:</label>
         <select
           id="category"
           value={category}
-          onChange={(e) => setCategory(e.target.value)}
+          onChange={(e) => setCategory(e.target.value)} // Update category state on change
           className="mt-1 block w-full p-2 border rounded"
         >
           <option value="">Select Category</option>
@@ -29,19 +33,23 @@ const SearchForm = ({ onSearch }) => {
           <option value="actor">Actor</option>
         </select>
       </div>
+
+      {/* Keyword Input */}
       <div className="mb-4">
         <label htmlFor="keyword" className="block text-gray-700">Search:</label>
         <input
           type="text"
           id="keyword"
           value={keyword}
-          onChange={(e) => setKeyword(e.target.value)}
+          onChange={(e) => setKeyword(e.target.value)} // Update keyword state on change
           className="mt-1 block w-full p-2 border rounded"
           placeholder="Enter search keyword"
         />
       </div>
+
+      {/* Search Button */}
       <button
-        type="submit"
+        type="submit" // Form submission button
         className="w-full bg-black text-white py-2 px-4 rounded hover:bg-gray-600"
       >
         Search
@@ -50,8 +58,10 @@ const SearchForm = ({ onSearch }) => {
   );
 };
 
+// PropTypes for type-checking the props passed to SearchForm
 SearchForm.propTypes = {
-  onSearch: PropTypes.func.isRequired,
+  onSearch: PropTypes.func.isRequired, // onSearch must be a function and is required
 };
 
+// Export the SearchForm component
 export default SearchForm;

@@ -42,7 +42,6 @@ const MovieList = () => {
               className="relative bg-gray-800 rounded-lg overflow-hidden shadow-lg transition-transform transform hover:scale-105 cursor-pointer"
               onClick={() => handleImageClick(movie)}
             >
-              {console.log('Image URL:', movie.poster)}
               <img
                 className="w-full h-64 object-cover"
                 src={movie.poster} 

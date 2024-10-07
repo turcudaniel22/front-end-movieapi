@@ -1,14 +1,17 @@
-import { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import SearchForm from './SearchForm';
-import MovieList from './MovieList';
+import { useEffect, useState } from 'react'; // Import necessary hooks from React
+import PropTypes from 'prop-types'; // Import PropTypes for type-checking
+import SearchForm from './SearchForm'; // Import the SearchForm component
+import MovieList from './MovieList'; // Import the MovieList component
 
+// SearchFilter component definition
 const SearchFilter = ({ movies }) => {
+  // State for filtered movies, initial state set to the full list of movies
   const [filteredMovies, setFilteredMovies] = useState(movies);
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [data, setData] = useState(null); // State for fetched movie data
+  const [loading, setLoading] = useState(true); // Loading state
+  const [error, setError] = useState(null); // Error state
 
+  // Effect to fetch movie data from the API
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -17,51 +20,59 @@ const SearchFilter = ({ movies }) => {
           throw new Error('Network response was not ok');
         }
         const result = await response.json();
-        setData(result);
+        setData(result); // Set the fetched data to state
       } catch (error) {
-        setError(error);
+        setError(error); // Set error if fetch fails
       } finally {
-        setLoading(false);
+        setLoading(false); // Set loading to false after fetch completes
       }
     };
 
-    fetchData();
-  }, []);
+    fetchData(); // Call the fetch function
+  }, []); // Empty dependency array means this runs once on mount
 
+  // Effect to update filteredMovies when data is fetched
   useEffect(() => {
-    // Update filteredMovies when movies or data changes
     if (data) {
-      setFilteredMovies(data);
+      setFilteredMovies(data); // Update filteredMovies with fetched data
     }
-  }, [data]);
+  }, [data]); // Runs whenever data changes
 
+  // Function to handle search functionality
   const handleSearch = ({ category, keyword }) => {
-    let filtered = movies;
+    let filtered = movies; // Start with the original movies array
 
+    // Filter by category if provided
     if (category) {
       filtered = filtered.filter(movie => movie.category === category);
     }
 
+    // Filter by keyword if provided
     if (keyword) {
       filtered = filtered.filter(movie =>
         movie.name.toLowerCase().includes(keyword.toLowerCase())
       );
     }
 
+    // Update the state with the filtered movies
     setFilteredMovies(filtered);
   };
 
+  // Loading state UI
   if (loading) return <p>Loading...</p>;
+  // Error state UI
   if (error) return <p>Error: {error.message}</p>;
 
+  // Render the component UI
   return (
     <div className="container mx-auto p-4">
-      <SearchForm onSearch={handleSearch} />
-      <MovieList movies={filteredMovies} />
+      <SearchForm onSearch={handleSearch} /> {/* Render the search form */}
+      <MovieList movies={filteredMovies} /> {/* Render the filtered movie list */}
     </div>
   );
 };
 
+// PropTypes for type-checking the props passed to SearchFilter
 SearchFilter.propTypes = {
   movies: PropTypes.arrayOf(
     PropTypes.shape({
@@ -74,4 +85,5 @@ SearchFilter.propTypes = {
   ).isRequired,
 };
 
+// Export the SearchFilter component
 export default SearchFilter;
